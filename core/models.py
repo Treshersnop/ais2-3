@@ -1,33 +1,33 @@
 import datetime
 
-from django.db import models
+from django.db.models import *
 
 
-class Moisture(models.Model):
-    fertilizer = models.FloatField()
-    soil = models.FloatField()
-    light = models.FloatField()
-    air_temp = models.FloatField()
-    day_id = models.ForeignKey('Timeline', null="NULL", on_delete=models.CASCADE)
-    date_id = models.ForeignKey('Day', null=datetime.datetime, on_delete=models.CASCADE)
+class Moisture(Model):
+    fertilizer = FloatField()
+    soil = FloatField()
+    light = FloatField()
+    air_temp = FloatField()
+    day_id = ForeignKey('TimeLine', null=1, on_delete=CASCADE)
+    date_id = ForeignKey('Day', null=1, on_delete=CASCADE)
 
     def __str__(self):
-        return f'{self.fertilizer}, день = {self.date_id}, время суток = {self.day_id}'
+        return str({'день': self.date_id, 'время суток': self.day_id, 'fert': self.fertilizer})
 
 
-class TimeLine(models.Model):
+class TimeLine(Model):
     """ Тип дня("День", "Вечер", "Утро" и "Ночь" ) """
-    id = models.AutoField(primary_key=True)
-    type = models.CharField(max_length=255, null=False, unique=True)
+    id = AutoField(primary_key=True)
+    type = CharField(max_length=255, null=False, unique=True)
 
     def __str__(self):
         return str({'id': self.id, 'type': self.type})
 
 
-class Day(models.Model):
+class Day(Model):
     """ Таблица с датой """
-    id = models.AutoField(primary_key=True)
-    date = models.DateField()
+    id = AutoField(primary_key=True)
+    date = DateField(null=False)
 
     def __str__(self):
         return str({'id': self.id, 'date': self.date})

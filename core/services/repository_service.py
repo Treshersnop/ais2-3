@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional, Iterable, List
 from django.db.models import QuerySet
-from ..models import Moisture, Day
+from ..models import Moisture, Day, TimeLine
 
 
 """
@@ -26,15 +26,15 @@ def get_mois_by_date_id(id: int) -> Optional[Moisture]:
     return moisture
 
 
-def get_city_by_time_day_name(time_line_name: str) -> QuerySet:
+def get_mois_by_time_day_name(time_line_name: str) -> QuerySet:
     """ Выборка всех записей о погоде за опрееделенное время суток """
-    weather = Moisture.objects.select_related('day_id').filter(day_id__type=time_line_name).all()
-    return weather
+    moisture = Moisture.objects.select_related('day_id').filter(day_id__type=time_line_name).all()
+    return moisture
 
 
 def create_mois(fert: float, soil: float, light: float, air_temp: float, day_id: int, date_id: int) -> None:
     """ Создание нового объекта Moisture и добавление записи об измерении """
-    moisture = Moisture.objects.create(fertilizer=fert, soil=soil, light=light, air_temp=air_temp, day_id=day_id, date_id=date_id)
+    moisture = Moisture.objects.create(fertilizer=fert, soil=soil, light=light, air_temp=air_temp, day_id_id=day_id, date_id_id=date_id)
     moisture.save()
 
 
@@ -53,5 +53,9 @@ def delete_mois_by_date_id(id: int) -> None:
 def add_mois_day(date_name: datetime.date) -> None:
     date = Day.objects.create(date=date_name)
     date.save()
+
+def add_mois_time_line(time_line_day: str) -> None:
+    time_line_type = TimeLine.objects.create(type=time_line_day)
+    time_line_type.save()
 
 

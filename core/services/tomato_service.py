@@ -24,7 +24,7 @@ class TomatoService:
         return result
 
     def get_all_moin_in_timeline(self, time_name: str) -> MoistureSerializer:
-        result = get_city_by_time_day_name(time_name.lower())
+        result = get_mois_by_time_day_name(time_name.lower())
         mois_data = MoistureSerializer(result, many=True)     # для возвращения списка объектов, необходимо создание сериализатора с аргументом many=True
         return mois_data
 

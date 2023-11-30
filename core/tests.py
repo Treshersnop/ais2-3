@@ -1,5 +1,4 @@
 from django.test import TestCase
-import random
 from .services.repository_service import *
 
 """
@@ -12,7 +11,7 @@ from .services.repository_service import *
 """
 
 
-class TestRepositoryService(TestCase):
+class TestWeatherRepositoryService(TestCase):
     """ Все тестовые методы в классе TestCase (по соглашению)
         должны начинаться с префикса test_* """
 
@@ -20,21 +19,25 @@ class TestRepositoryService(TestCase):
         """ Наследуемый метод setUp определяет инструкции,
             которые должны быть выполнены ПЕРЕД тестированием """
         # создаем тестовые записи
-        create_mois(fert=1.02, soil=random.uniform(20.0, 29.9), light=random.uniform(20.0, 29.9), air_temp=random.uniform(20.0, 29.9),
-                       day_id=1, date_id=1)
+        add_mois_time_line('night')
+        add_mois_day('2023-01-01')
+        create_mois(fert=2.36, soil=1.02, light=11.2, air_temp=10.2, day_id=1, date_id=1)
 
     def test_get_weather(self):
-        """ Тест функции поиска записи измерения по дате """
-        moinsure = get_mois_by_date_id(1)
-        print(moinsure)
-        self.assertIsNotNone(moinsure)  # запись должна существовать
-        self.assertTrue(moinsure.day_id == 1)  # идентификатор day_id == 1 (т.е. запись 1 января)
+        """ Тест функции поиска записи Weather по наименованию населённого пункта """
+        mois_in_time_line = get_mois_by_time_day_name(time_line_name='night')
+        for row in mois_in_time_line:
+            print(row)
+            self.assertIsNotNone(row)  # запись должна существовать
+            self.assertTrue(row.day_id_id == 1)  # идентификатор city_id == 1 (т.е. город UFA в таблице city)
+            self.assertTrue(row.day_id.type == 'night')  # проверка связи по FK
 
-    def test_delete_weather(self):
-        """ Тест функции удаления записи измерения по дате """
-        delete_mois_by_date_id(1)
-        result = get_mois_by_date_id(id=1)  # ищем запись по идентификатору даты
-        self.assertIsNone(result)  # запись не должна существовать
+    def test_delete_mois(self):
+        """ Тест функции удаления записи Weather по наименованию населённого пункта """
+        delete_mois_by_date_id(id=1)
+        result = get_mois_by_date_id(id=1)  # ищем запись по идентификатору города UFA
+        self.assertIsNone(result)  # запись не должна существоват
+
 
     def tearDown(self):
         """ Наследуемый метод tearDown определяет инструкции,
