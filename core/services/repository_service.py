@@ -22,16 +22,16 @@ from ..models import Moisture, Day, TimeLine
 
 def get_mois_by_date_id(id: int) -> Optional[Moisture]:
     """ Выборка одной записи об измерениях по идентификатору (PrimaryKey) дня """
-    moisture = Moisture.objects.filter(date_id_id=id).first()
+    moisture = Moisture.objects.filter(date_id=id).first()
     return moisture
 
 
-def get_mois_by_time_day_name(time_line_name: str) -> QuerySet:
-    """ Выборка всех записей о погоде за опрееделенное время суток """
-    moisture = Moisture.objects.select_related('day_id').filter(day_id__type=time_line_name).all()
+def get_mois_by_date_name(day_name: str) -> QuerySet:
+    """ Выборка всех записей о погоде за определенное время суток """
+    moisture = Moisture.objects.select_related('date_id').filter(date_id__type=day_name).all()
     return moisture
 
-
+'''
 def create_mois(fert: float, soil: float, light: float, air_temp: float, day_id: int, date_id: int) -> None:
     """ Создание нового объекта Moisture и добавление записи об измерении """
     moisture = Moisture.objects.create(fertilizer=fert, soil=soil, light=light, air_temp=air_temp, day_id_id=day_id, date_id_id=date_id)
@@ -57,5 +57,5 @@ def add_mois_day(date_name: datetime.date) -> None:
 def add_mois_time_line(time_line_day: str) -> None:
     time_line_type = TimeLine.objects.create(type=time_line_day)
     time_line_type.save()
-
+'''
 

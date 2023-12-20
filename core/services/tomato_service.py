@@ -16,19 +16,18 @@ from .repository_service import *
 
 class TomatoService:
 
-
     def get_mois_in_day(self, day_id: int) -> Optional[MoistureSerializer]:
         result = get_mois_by_date_id(day_id)
         if result is not None:
             return MoistureSerializer(result)
         return result
 
-    def get_all_moin_in_timeline(self, time_name: str) -> MoistureSerializer:
-        result = get_mois_by_time_day_name(time_name.lower())
+    def get_all_moin_in_day(self, day_name: str) -> MoistureSerializer:
+        result = get_mois_by_date_name(day_name)
         mois_data = MoistureSerializer(result, many=True)     # для возвращения списка объектов, необходимо создание сериализатора с аргументом many=True
         return mois_data
 
-
+'''
     def add_mois_info(self, mois: MoistureSerializer) -> None:
         mois_data = mois.data     # получаем валидированные с помощью сериализатора данные (метод .data  возвращает объект типа dict)
         create_mois(fert=mois_data.get('fertilizer'),
@@ -54,4 +53,4 @@ class TomatoService:
     def add_date(self, date: DateSerializer) -> None:
         date_data = date.data
         add_mois_day(date_name=date_data.get('date'))
-
+'''
