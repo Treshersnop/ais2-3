@@ -28,7 +28,7 @@ def get_mois_by_date_id(id: int) -> Optional[Moisture]:
 
 def get_mois_by_date_name(day_name: str) -> QuerySet:
     """ Выборка всех записей о погоде за определенное время суток """
-    moisture = Moisture.objects.select_related('date_id').filter(date_id__type=day_name).all()
+    moisture = Moisture.objects.select_related('date').filter(date_id__date=day_name).all()
     return moisture
 
 '''
