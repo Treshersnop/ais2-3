@@ -11,6 +11,9 @@ class Moisture(Model):
     date = ForeignKey('Day', null=1, on_delete=CASCADE)
     time = ForeignKey('TimeLine', null=1, on_delete=CASCADE)
 
+    class Meta:
+        db_table = 'moisture'
+
     def __str__(self):
         return str({'день': self.date, 'время суток': self.time, 'fert': self.fertilizer})
 
@@ -24,6 +27,9 @@ class TimeLine(Model):
     def __str__(self):
         return str({'id': self.id, 'hour': self.value1, 'minute': self.value2})
 
+    class Meta:
+        db_table = 'timeLine'
+
 
 class Day(Model):
     """ Таблица с датой """
@@ -32,3 +38,6 @@ class Day(Model):
 
     def __str__(self):
         return str({'id': self.id, 'date': self.date})
+
+    class Meta:
+        db_table = 'day'
